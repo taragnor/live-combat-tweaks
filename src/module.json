@@ -1,0 +1,38 @@
+{
+	"id": "live-combat-taragnor",
+	"title": "Taragnor's Live Combat Tweaks",
+	"description": "Useful options for running a game in-person",
+	"author": "taragnor",
+	"authors": [{
+		"name": "Taragnor",
+		"url":"",
+		"discord":"Taragnor#3338"
+	}],
+	"version": "11.0.0",
+	"compatibleCoreVersion": "10",
+	"compatibility": {
+		"minimum": "11",
+		"verified": "11.307",
+		"maximum": "12"
+	},
+	"esmodules": [
+		"es/main.js"
+	],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "lang/en.json",
+			"title": "Taragnor's Live Combat Tweaks",
+			"description": "Useful options for running a game in-person"
+		}
+	],
+	"styles": [ ],
+	"socket": true,
+	"system": [],
+	"relationshisps": {
+		"requires": []
+	},
+	"manifest": "",
+	"download": ""
+}
