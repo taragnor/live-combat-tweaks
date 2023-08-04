@@ -1,6 +1,13 @@
 import { getGame } from "./getGame.js";
 import { LiveCombatSettings } from "./settings.js";
 
+async function delay(ms: number) : Promise<void> {
+	return new Promise<void>( function (c, _r)  {
+		setTimeout( ()=> c(), ms);
+	});
+
+}
+
 export class CombatFocus {
 	static init() {
 		console.log("Init Combat Focus");
@@ -42,18 +49,19 @@ export class CombatFocus {
 		const scene =combat.scene!;
 		const token = combatant.token!;
 		const isGM =game.user!.isGM;
-		if (!token.hasPlayerOwner && isGM) {
-			this.releaseAllTokens(scene);
-			this.selectToken(token);
-		} else if (token.hasPlayerOwner && !isGM && token.isOwner) {
-			this.releaseAllTokens(scene);
-			this.selectToken(token);
-		} else if (!isGM) {
-			this.releaseAllTokens(scene);
-			if (!token.object!.visible) return;
-		}
-		if (!isGM && token.actor!.statuses.has("deaf")) {
-			return;
+		this.releaseAllTokens(scene);
+		await delay(500); //waits for visible to refresh to determine visibility
+		if (isGM)  {
+			if (!token.hasPlayerOwner && isGM) {
+				this.selectToken(token);
+			}
+		} else {
+			if (token.isOwner) {
+				this.selectToken(token);
+			} else {
+				if (!token.object!.visible)
+					return;
+			}
 		}
 		await this.centerOnToken(token);
 	}
