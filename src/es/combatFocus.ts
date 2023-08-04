@@ -11,7 +11,6 @@ export class CombatFocus {
 
 	static releaseAllTokens(scene: Scene) {
 		scene.tokens
-		//@ts-ignore
 			.filter(x=> x.object!.controlled)
 			.forEach( x=>x.object!.release());
 	}
@@ -53,7 +52,6 @@ export class CombatFocus {
 			this.releaseAllTokens(scene);
 			if (!token.object!.visible) return;
 		}
-		//@ts-ignore
 		if (!isGM && token.actor!.statuses.has("deaf")) {
 			return;
 		}

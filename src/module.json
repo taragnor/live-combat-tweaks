@@ -31,6 +31,6 @@
 	"relationshisps": {
 		"requires": []
 	},
-	"manifest": "",
+	"manifest": "https://raw.githubusercontent.com/taragnor/live-combat-tweaks/main/src/module.json",
 	"download": ""
 }

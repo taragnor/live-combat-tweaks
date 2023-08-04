@@ -1,5 +1,5 @@
 export function getGame() : Game {
-	if ("actors" in game) return game;
+	if (game && "actors" in game) return game;
 	throw new Error("Game object inaccessible");
 }
 
