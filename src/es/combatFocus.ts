@@ -53,6 +53,10 @@ export class CombatFocus {
 			this.releaseAllTokens(scene);
 			if (!token.object!.visible) return;
 		}
+		//@ts-ignore
+		if (!isGM && token.actor!.statuses.has("deaf")) {
+			return;
+		}
 		await this.centerOnToken(token);
 	}
 }
