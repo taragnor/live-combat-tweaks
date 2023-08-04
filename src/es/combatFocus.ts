@@ -46,9 +46,9 @@ export class CombatFocus {
 		const game = getGame();
 		const combatant = combat.combatant;
 		if (!combatant) return;
-		const scene =combat.scene!;
+		const scene = combat.scene!;
 		const token = combatant.token!;
-		const isGM =game.user!.isGM;
+		const isGM = game.user!.isGM;
 		this.releaseAllTokens(scene);
 		await delay(500); //waits for visible to refresh to determine visibility
 		if (isGM)  {
