@@ -1,4 +1,4 @@
-import { localize , getGame} from "./getGame";
+import { localize , getGame} from "./getGame.js";
 
 export class LiveCombatSettings {
 	static init	() {
@@ -10,7 +10,7 @@ export class LiveCombatSettings {
 			scope: "world",
 			config: true,
 			type: Number,
-			default: 2,
+			default:0.5,
 			//@ts-ignore
 			restrict: true
 		});

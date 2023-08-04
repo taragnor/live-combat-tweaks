@@ -1,6 +1,9 @@
-import { LiveCombatSettings } from "./settings";
-import {CombatFocus} from "./combatFocus";
+import { LiveCombatSettings } from "./settings.js";
+import {CombatFocus} from "./combatFocus.js";
 
-LiveCombatSettings.init();
-CombatFocus.init();
-
+Hooks.on("ready", () => {
+	LiveCombatSettings.init();
+	CombatFocus.init();
+});
+//@ts-ignore
+window.liveTweaks = {};

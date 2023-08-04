@@ -1,9 +1,11 @@
-import { getGame } from "./getGame";
-import { LiveCombatSettings } from "./settings";
+import { getGame } from "./getGame.js";
+import { LiveCombatSettings } from "./settings.js";
 
 export class CombatFocus {
 	static init() {
-		Hooks.on("combatRound", (c: Combat, delta: {}) => this.onNewTurn(c, delta));
+		console.log("Init Combat Focus");
+		Hooks.on("updateCombat", (c: Combat, delta: {}) => this.onNewTurn(c, delta));
+		Hooks.on("updateCombat", (c: Combat, delta: {}) => this.onNewTurn(c, delta));
 
 	}
 
@@ -29,27 +31,27 @@ export class CombatFocus {
 		};
 		if (canvas)
 			await canvas.animatePan (panZone);
+		else
+			throw new Error("No canvas found");
 	}
 
-	static async onNewTurn(combat: Combat, _delta: {}) {
+	static async onNewTurn(combat: Combat, delta: any) {
+		if (delta.turn == undefined && delta.round == undefined) return;
 		const game = getGame();
 		const combatant = combat.combatant;
 		if (!combatant) return;
-		// const {tokenId, sceneId, actorId} = combatant as Combatant & {tokenId: string, sceneId: string, actorId:string};
-		// const scene = game.scenes!.get(sceneId)!;
-		// const token = scene.tokens.get(tokenId)!;
+		const scene =combat.scene!;
 		const token = combatant.token!;
 		const isGM =game.user!.isGM;
 		if (!token.hasPlayerOwner && isGM) {
-			this.releaseAllTokens(combat.scene!);
+			this.releaseAllTokens(scene);
 			this.selectToken(token);
-			return;
-		}
-		if (token.hasPlayerOwner && !isGM) {
-			if (token.isOwner) {
-				this.releaseAllTokens(combat.scene!);
-				this.selectToken(token);
-			}
+		} else if (token.hasPlayerOwner && !isGM && token.isOwner) {
+			this.releaseAllTokens(scene);
+			this.selectToken(token);
+		} else if (!isGM) {
+			this.releaseAllTokens(scene);
+			if (!token.object!.visible) return;
 		}
 		await this.centerOnToken(token);
 	}

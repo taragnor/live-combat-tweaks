@@ -28,8 +28,6 @@
 		}
 	],
 	"styles": [ ],
-	"socket": true,
-	"system": [],
 	"relationshisps": {
 		"requires": []
 	},
