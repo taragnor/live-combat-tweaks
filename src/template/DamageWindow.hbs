@@ -1,0 +1,25 @@
+<form class="damage-window">
+	<div class="flexcol">
+		<div class="full-damage">
+			<h2> Full Damage</h2>
+			{{#each FDActors as |actor|}}
+			<div class="actor" data-actor-id={{actor.id}}>
+				{{actor.name}}
+			</div>
+			{{/each}}
+		</div>
+		<div class="half-damage">
+			<h2> Half Damage</h2>
+			{{#each HDActors as |actor|}}
+			<div class="actor" data-actor-id={{actor.id}}>
+				{{actor.name}}
+			</div>
+			{{/each}}
+		</div>
+	</div>
+	<hr>
+	<label>
+		Amount
+	</label>
+	<input name:"amount" type="number">
+</form>
