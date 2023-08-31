@@ -15,7 +15,7 @@ export class DamageWindow extends Dialog {
 			FDActors: actors,
 			HDActors: [],
 		} satisfies templateDataType;
-		const template = "modules/live-combat/templates/DamageWindow.hbs";
+		const template = "modules/live-combat-taragnor/templates/DamageWindow.hbs";
 		const html = await renderTemplate(template,templateData);
 		const dialogData = this.getDialogData(html, templateData);
 		//@ts-ignore
@@ -31,7 +31,8 @@ export class DamageWindow extends Dialog {
 					icon: '<i class="fas fa-check"></i>',
 					label: "Go",
 					callback: (html: string): HPData[] => {
-						const hpChangeAmount = Number($(html).find("#amount").val());
+						const raw = $(html).find(".amount-input").val();
+						const hpChangeAmount = Number(raw);
 						const actors= templateData.FDActors
 							.map(actor => ({
 								tokenId: actor.token?.id ?? null,
@@ -66,10 +67,10 @@ export class DamageWindow extends Dialog {
 	}
 
 	private static enableListeners(html: string, templateData:templateDataType) {
-		$(html).find(".full-damage .actor").on("click", 
+		$(html).find(".full-damage .actor").on("click",
 			(ev: JQuery.ClickEvent) => this.click_fullDamage(ev, templateData)
 		);
-		$(html).find(".half-damage .actor").on("click", 
+		$(html).find(".half-damage .actor").on("click",
 			(ev: JQuery.ClickEvent) => this.click_halfDamage(ev, templateData)
 		);
 
@@ -79,21 +80,26 @@ export class DamageWindow extends Dialog {
 		const id :string =$(ev.currentTarget).closest(".actor").data("actorId");
 		if (!id) throw new Error("Can't find ID");
 		this.shiftActor(id, templateData.FDActors, templateData.HDActors);
+		this.refreshHTML(templateData);
 	}
 
 	private static click_halfDamage(ev: JQuery.ClickEvent, templateData: templateDataType) {
 		const id :string =$(ev.currentTarget).closest(".actor").data("actorId");
 		if (!id) throw new Error("Can't find ID");
 		this.shiftActor(id, templateData.HDActors, templateData.FDActors);
+		this.refreshHTML(templateData);
 	}
 
 	private static shiftActor(actorId: string, sourceArr: Actor[], destArr: Actor[]) : void {
 		const actor = sourceArr.find(a=> a.id== actorId);
 		if (!actor)
-			throw new Error(`Can't find actor ${actorId}`);
+		throw new Error(`Can't find actor ${actorId}`);
 		sourceArr.splice(sourceArr.indexOf(actor),1 );
 		destArr.push(actor);
 	}
 
+	private static async refreshHTML(templateData: templateDataType) {
+		//TODO: refresh the HTML with new template
 
+	}
 }
