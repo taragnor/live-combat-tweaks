@@ -95,6 +95,7 @@ export class DamageWindow {
 		$(html).find(".half-damage .actor").on("click",
 			(ev: JQuery.ClickEvent) => this.click_halfDamage(ev)
 		);
+		setTimeout( ()=> $(html).find(".amount-input").focus(), 1);
 
 	}
 

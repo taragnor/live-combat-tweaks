@@ -57,7 +57,6 @@ export class AttackWindow {
 					label: "Go",
 					callback: (html: HTMLElement | JQuery<HTMLElement>): AtkData => {
 						const raw = $(html).find('input[name="atk-select"]:checked').val();
-						console.log("Raw:" +  raw);
 						const atkData =  {
 							itemName: String(raw)
 						};
@@ -83,6 +82,15 @@ export class AttackWindow {
 	}
 
 	private enableListeners(html: HTMLElement |  JQuery<HTMLElement>) {
+		$(html).find(".attack-window input").dblclick( (ev) => {
+			console.log("Double click fire");
+			const raw = $(html).find('input[name="atk-select"]:checked').val();
+			const atkData =  {
+				itemName: String(raw)
+			};
+			this.conf(atkData);
+			this.dialog.close();
+		});
 	}
 
 }
