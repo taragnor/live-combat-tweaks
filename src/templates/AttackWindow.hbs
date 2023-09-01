@@ -1,0 +1,12 @@
+<form class="attack-window">
+	<div>
+		{{#each attacks as |attack|}}
+		<div>
+		<label>
+			{{attack.name}}
+		</label>
+		<input type="radio" name="atk-select" value="{{attack.name}}">
+		</div>
+		{{/each}}
+	</div>
+</form>
