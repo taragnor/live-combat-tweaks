@@ -25,21 +25,6 @@ export class CombatMacros {
 		this._dmWindow = [];
 	}
 
-	//static async  applyDamage (actor: Actor, dmg: number) : Promise<void>  {
-	//	//@ts-ignore
-	//	let tmp = actor.system.attributes.hp.temp ?? 0;
-	//	//@ts-ignore
-	//	let current = actor.system.attributes.hp.value ?? 0;
-	//	const tmpabsorb = Math.max(tmp, dmg);
-	//	tmp -= tmpabsorb;
-	//	dmg -= tmpabsorb;
-	//	current -= dmg;
-	//	await actor.update(
-	//		{
-	//			"system.attributes.hp.value" : current,
-	//			"system.attributes.hp.temp" : tmp
-	//		});
-	//}
 
 }
 
