@@ -1,25 +1,59 @@
 <form class="damage-window">
-	<div class="flexcol">
-		<div class="full-damage">
-			<h2> Full Damage</h2>
-			{{#each FDActors as |actor|}}
-			<div class="actor" data-actor-id={{actor.id}}>
-				{{actor.name}}
-			</div>
-			{{/each}}
+  <div class="flexcol">
+	 <div class="full-damage">
+		<h2> Full Damage</h2>
+		{{#each FDActors as |actor|}}
+		<div class="actor" data-actor-id={{actor.id}}>
+		  {{actor.name}}
 		</div>
-		<div class="half-damage">
-			<h2> Half Damage</h2>
-			{{#each HDActors as |actor|}}
-			<div class="actor" data-actor-id={{actor.id}}>
-				{{actor.name}}
-			</div>
-			{{/each}}
+		{{/each}}
+	 </div>
+	 <div class="half-damage">
+		<h2> Half Damage</h2>
+		{{#each HDActors as |actor|}}
+		<div class="actor" data-actor-id={{actor.id}}>
+		  {{actor.name}}
 		</div>
-	</div>
-	<hr>
-	<label>
-		Amount
-	</label>
-	<input class="amount-input name="amount" type="number">
+		{{/each}}
+	 </div>
+  </div>
+  <hr>
+  <label>
+	 Amount
+  </label>
+  <input class="amount-input" name="amount" type="number">
+  <hr>
+  <select class="save-type">
+	 <option value="none">No Save </option>
+	 <option value="str">Strength </option>
+	 <option value="dex">Dexterity</option>
+	 <option value="con">Constitution</option>
+	 <option value="int">Intelligence</option>
+	 <option value="wis">Wisdom</option>
+	 <option value="cha">Charisma</option>
+  </select>
+  <br>
+  <label> DC</label>
+  <input class="save-dc" type="number" size="5">
+  <label> Save for Half</label>
+  <input class="save-for-half" type="checkbox">
+  <hr>
+  <select class="state-selector">
+	 <option value=""> None </option>
+	 <option value="paralyzed"> Paralyzed </option>
+	 <option value="stunned"> Stunned </option>
+	 <option value="poisoned"> Poisoned </option>
+  </select>
+  <label> Remove State?</label>
+  <input class="remove-state" type="checkbox">
+  <label> Apply on failed save only</label>
+  <input class="failed-save-state" type="checkbox">
+  <label> Token Resize</label>
+  <select class="token-size">
+	 <option value="no-change">No Change</option>
+	 <option value="normal">Normal</option>
+	 <option value="half">Tiny Map </option>
+	 <option value="alter">Smaller </option>
+  </select>
+
 </form>

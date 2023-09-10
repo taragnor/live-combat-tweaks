@@ -1,7 +1,20 @@
 
+type SaveType = "str" | "dex" | "con" | "int" | "wis" | "cha";
+
 export type HPData = {
 	tokenId: string | null,
 	hpDelta: number,
+	save: null | {
+		type: SaveType,
+		dc: number,
+		save_for_half: boolean,// save for half damage
+	},
+	status: null | {
+		statusName: string,
+		failOnly: boolean, //status on failed save only
+		addState: boolean, //tells to add or subtract
+	}
+	resize: null | "normal" | "half" | "alter",
 };
 type templateDataType = {
 	FDActors: Token[],
@@ -53,18 +66,27 @@ export class DamageWindow {
 					label: "Go",
 					callback: (html: HTMLElement | JQuery<HTMLElement>): HPData[] => {
 						const raw = $(html).find(".amount-input").val();
+						const saveData = this.prepareSaveData(html);
+						const stateData = this.prepareStateData(html);
 						const hpChangeAmount = Number(raw);
+						const sizeData =this.prepareSizeData(html);
 						const actors= templateData.FDActors
 							.map(token => ({
 								tokenId: token.id ?? null,
-								hpDelta: hpChangeAmount
-							})
+								hpDelta: hpChangeAmount,
+								save: saveData,
+								status: stateData,
+								resize: sizeData,
+							} satisfies HPData )
 							).concat(
 								templateData.HDActors
 								.map(token => ({
 									tokenId: token.id ?? null,
 									hpDelta: Math.floor(hpChangeAmount/2),
-								})
+									save: saveData,
+									status: stateData,
+									resize: sizeData,
+								} satisfies HPData)
 								)
 							);
 						this.conf(actors);
@@ -86,6 +108,44 @@ export class DamageWindow {
 			},
 			close: () => this.rej("closed"),
 		};
+	}
+
+	private prepareSaveData(html: HTMLElement |  JQuery<HTMLElement>) : null | HPData["save"] {
+		const type = String($(html).find(".save-type option:selected").val());
+		if (type == "none") return null;
+		const dc = Number($(html).find(".save-dc").val());
+			const save_for_half =  $(html).find(".save-for-half").is(":checked");
+		return {
+			type: type as SaveType ,
+			dc,
+			save_for_half
+		}
+	}
+
+	private prepareStateData (html: HTMLElement |  JQuery<HTMLElement>) : null | HPData["status"] {
+		const removeState = $(html).find(".remove-state").is(":checked");
+		const failOnly = $(html).find(".failed-save-state").is(":checked");
+		const statusName  =String($(html).find(".state-selector option:selected").val())
+
+		return {
+			statusName,
+			failOnly,
+			addState: !removeState
+		}
+
+	}
+	private prepareSizeData(html: HTMLElement |  JQuery<HTMLElement>) {
+		const size = String($(html).find(".token-size option:selected").val());
+		switch (size) {
+			case "no-change": return null;
+			case "normal": return "normal";
+			case "half": return "half";
+			case "alter": return "alter";
+			default: throw new Error(`Unrecognized token size value ${size}`);
+
+
+		}
+
 	}
 
 	private enableListeners(html: HTMLElement |  JQuery<HTMLElement>) {
